@@ -10,6 +10,8 @@ namespace Victim
     {
         static void Main(string[] args)
         {
+            TCPVictim victim = new TCPVictim("zazapo");
+            victim.listen();
         }
     }
 }

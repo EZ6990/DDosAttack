@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Net;
 
 namespace CNC
 {
@@ -14,16 +15,16 @@ namespace CNC
 
             CNC control = new CNC("bitches be riches");
             new Thread(new ThreadStart(control.listen)).Start();
-            String IP="";
-            String port="";
-            String password="";
+            String IP="127.0.0.1";
+            String port="12566";
+            String password="zazapo";
             bool stop = false;
             while (!stop)
             {
 
                 Console.WriteLine("please choose an option");
                 Console.WriteLine("1 -> set victim info");
-                Console.WriteLine("2 -> set attack victim");
+                Console.WriteLine("2 -> attack victim");
                 Console.WriteLine("3 -> end");
 
                 switch (Console.ReadLine().Trim())
@@ -39,7 +40,7 @@ namespace CNC
                         password = Console.ReadLine().Trim();
                         break;
                     case "2":
-                        if (checkIPandPort(IP, port))
+                        if (checkIPandPort(IP, port,password))
                         {
                             control.attack(IP,Convert.ToUInt16(port),password);
                         }
@@ -62,9 +63,23 @@ namespace CNC
 
         }
 
-        private static bool checkIPandPort(string iP, string port)
+        private static bool checkIPandPort(string iP, string port,string password)
         {
-            return true;
+            bool ans = true;
+            try
+            {
+                IPAddress.Parse(iP);
+                Convert.ToUInt16(port);
+                byte[] x = Encoding.ASCII.GetBytes(password);
+                if (x.Length != 6)
+                    ans = false;
+            }
+            catch
+            {
+                return false;
+            }
+            
+            return ans;
         }
     }
 }

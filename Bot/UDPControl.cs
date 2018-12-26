@@ -69,7 +69,7 @@ namespace Bot
         }
 
 
-        public void sendRepeatdMessage(String message, double timeinsec)
+        public void sendRepeatdMessage(Byte[] message, double timeinsec)
         {
             if (message != null && timeinsec >= 0)
             {
@@ -84,12 +84,12 @@ namespace Bot
                 )).Start();
             }
         }
-        private void sendMessage(String message, String ipAddress, int port)
+        private void sendMessage(Byte[] message, String ipAddress, int port)
         {
-            Byte[] sendBytes = Encoding.ASCII.GetBytes(message);
+            //Byte[] sendBytes = Encoding.ASCII.GetBytes(message);
             //UdpClient broadcast = new UdpClient();
             //broadcast.Send(sendBytes, sendBytes.Length, ipAddress, port);
-            listener.Send(sendBytes, sendBytes.Length, ipAddress, port);
+            listener.Send(message, message.Length, ipAddress, port);
         }
     }
 }

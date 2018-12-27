@@ -13,7 +13,7 @@ namespace CNC
         static void Main(string[] args)
         {
 
-            CNC control = new CNC("bitches be riches");
+            CNC control = new CNC("Th3L@nn1$t3r$$3ndTh31rR3g@rd$");
             new Thread(new ThreadStart(control.listen)).Start();
             String IP="127.0.0.1";
             String port="12566";
